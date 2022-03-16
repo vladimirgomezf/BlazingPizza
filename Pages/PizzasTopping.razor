@@ -1,0 +1,13 @@
+﻿@page "/pizzas-toppings"
+
+<div class="container">
+    <h1>Our Latest Pizzas and Topping</h1>
+</div>
+
+<div class="container">
+    <Pizza PizzaName="Hawaiian" PizzaDescription="The one with pineapple" />
+</div>
+
+<div class="container">
+    <NewTopping Topping="@(new Topping() { Name = "Chilli Sauce", Price = (decimal)1.65 })" />
+</div>
