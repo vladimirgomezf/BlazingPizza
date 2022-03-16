@@ -3,7 +3,14 @@
 @inject NavigationManager NavigationManager
 @inject OrderState OrderState
 
+
 <div class="main">
+    <h1>My favorite pizza is: @favPizza</h1>
+
+    <p>
+        Enter your favorite pizza:
+        <input @bind-value="favPizza" @bind-value:event="oninput"/>
+    </p>
     <h1>Blazing Pizzas</h1>
     <ul class="pizza-cards">
     @if (specials != null)
@@ -31,6 +38,7 @@
 }
 
 @code {
+    private string favPizza { get; set; } = "Margherita";
     List<PizzaSpecial> specials = new();
 
     protected override async Task OnInitializedAsync()
