@@ -4,6 +4,10 @@
 @inject NavigationManager NavManager
 
 <div class="main">
+	<div>
+		<NavLink href=@HomePageURI Match="NavLinkMatch.All">Home Page</NavLink>
+	</div>
+
 	<h1>Buy a Pizza</h1>
 
 	<p>I want to order a: @PizzaName</p>
@@ -13,12 +17,15 @@
 	<button class="btn" @onclick="NavigateToPaymentPage">
 		Buy this pizza!
 	</button>
+
 </div>
 @code {
 	[Parameter]
 	public string PizzaName { get; set; }
 	
 	private string ToppingName { get; set; }
+	
+	public string HomePageURI { get; set; }
 	
 	protected override void OnInitialized()
 	{
@@ -29,6 +36,7 @@
 			ToppingName = System.Convert.ToString(extraTopping);
 		}
 
+		HomePageURI = NavManager.BaseUri;
 	}
 
 	private void NavigateToPaymentPage()
