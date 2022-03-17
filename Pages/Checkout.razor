@@ -4,21 +4,23 @@
 @inject NavigationManager NavigationManager
 
 <div class="main">
-    <div class="checkout-cols">
-        <div class="checkout-order-details">
-            <h4>Review order</h4>
-            <OrderReview Order="Order" />
+    <EditForm Model=Order.DeliveryAddress OnSubmit=CheckSubmission>
+        <div class="checkout-cols">
+            <div class="checkout-order-details">
+                <h4>Review order</h4>
+                <OrderReview Order="Order" />
+            </div>
+
+            <div class="checkout-delivery-address">
+                <h4>Deliver to...</h4>
+                <AddressEditor Address="Order.DeliveryAddress" />
+            </div>
         </div>
 
-        <div class="checkout-delivery-address">
-            <h4>Deliver to...</h4>
-            <AddressEditor Address="Order.DeliveryAddress" />
-        </div>
-    </div>
-
-    <button class="checkout-button btn btn-warning" @onclick="PlaceOrder" disabled=@isSubmitting>
-        Place order
-    </button>
+        <button class="checkout-button btn btn-warning" disabled=@isSubmitting>
+            Place order
+        </button>
+    </EditForm>
 </div>
 
 @code {
@@ -28,10 +30,16 @@
 
     async Task PlaceOrder()
     {
-        isSubmitting = true;
         var response = await HttpClient.PostAsJsonAsync($"{NavigationManager.BaseUri}orders", OrderState.Order);
         var newOrderId = await response.Content.ReadFromJsonAsync<int>();
         OrderState.ResetOrder();
         NavigationManager.NavigateTo($"myorders/{newOrderId}");
+    }
+
+    private async Task CheckSubmission()
+    {
+        isSubmitting = true;
+        await PlaceOrder();
+        isSubmitting = false;
     }
 }
