@@ -2,7 +2,7 @@
 
 <h1>Add a new pizza</h1>
 
-<EditForm Model="@pizza">
+<EditForm Model="@pizza" OnValidSubmit=@ProcessInputData OnInvalidSubmit=@ShowFeedback>
     <DataAnnotationsValidator />
     <ValidationSummary />
     
@@ -14,10 +14,20 @@
     <InputText id="chefemail" @bind-Value="pizza.ChefEmail" />
     <ValidationMessage For="@(() => pizza.ChefEmail)" />
     
-    <InputText id="price" @bind-Value="pizza.Price" />
+    <InputText id="price" @bind-Value="pizza.Price.ToString()" />
     <ValidationMessage For="@(() => pizza.Price)" />
 </EditForm>
 
 @code {
-    private Pizzas pizza = new();
+    private BlazingPizza.Pizzas pizza = new();
+    
+    void ProcessInputData (EditContext context)
+    {
+        // Store valid data here
+    }
+    
+    void ShowFeedback(EditContext context)
+    {
+        // Take action here to help the user correct the issues
+    }
 }
