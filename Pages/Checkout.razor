@@ -13,6 +13,9 @@
 
             <div class="checkout-delivery-address">
                 <h4>Deliver to...</h4>
+                  @if (isError) {
+                    <div class="alert alert-danger">Please enter a name and address.</div>
+                  }
                 <AddressEditor Address="Order.DeliveryAddress" />
             </div>
         </div>
@@ -25,8 +28,24 @@
 
 @code {
     Order Order => OrderState.Order;
-
+    bool isError = false;
     bool isSubmitting;
+
+    private async Task CheckSubmission(EditContext editContext)
+    {
+        var model = editContext.Model as Address;   
+        isSubmitting = true;
+        if (string.IsNullOrWhiteSpace(model?.Name) || string.IsNullOrWhiteSpace(model?.Line1) || string.IsNullOrWhiteSpace(model?.PostalCode))
+        {
+            isError = true;
+        } 
+        else 
+        {
+            isError = false;
+            await PlaceOrder();
+        }
+        isSubmitting = false;
+    }
 
     async Task PlaceOrder()
     {
@@ -34,12 +53,5 @@
         var newOrderId = await response.Content.ReadFromJsonAsync<int>();
         OrderState.ResetOrder();
         NavigationManager.NavigateTo($"myorders/{newOrderId}");
-    }
-
-    private async Task CheckSubmission()
-    {
-        isSubmitting = true;
-        await PlaceOrder();
-        isSubmitting = false;
     }
 }
