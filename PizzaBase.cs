@@ -8,12 +8,7 @@ namespace BlazingPizza
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            if (value != "Tomato" || value != "Pesto")
-            {
-                return new ValidationResult(GetErrorMessage());
-            }
-
-            return ValidationResult.Success;
+            return value != "Tomato" || value != "Pesto" ? new ValidationResult(GetErrorMessage()) : ValidationResult.Success;
         }
     }
 }
