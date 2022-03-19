@@ -36,10 +36,13 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
       if (Pizza.Special.Name == "Margherita Family Size") {
+
+        Pizza.DefaultSize = 24;
+        Pizza.Size = 24;
         if (firstRender)
         {
           await JS.InvokeVoidAsync("disableElement", sizeRange);
         }
       }
-    } 
+    }
 }
